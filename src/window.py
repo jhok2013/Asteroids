@@ -1,10 +1,12 @@
 # Standard library imports
 
 # Third party imports
-import arcade
+from context import arcade
+from Asteroids import SmallAsteroid, MediumAsteroid, LargeAsteroid
+from Bullets import Bullet
+from Ship import Ship
 
 # Organization imports
-from settings.constants import *
 
 class Game(arcade.Window):
     """
