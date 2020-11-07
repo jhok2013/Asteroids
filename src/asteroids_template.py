@@ -5,6 +5,7 @@ Designed to be completed by others
 
 This program implements the asteroids game.
 """
+
 import arcade
 
 # These are Global constants to use throughout the game
@@ -30,9 +31,6 @@ MEDIUM_ROCK_RADIUS = 5
 
 SMALL_ROCK_SPIN = 5
 SMALL_ROCK_RADIUS = 2
-
-
-
 
 class Game(arcade.Window):
     """
