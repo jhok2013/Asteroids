@@ -1,6 +1,7 @@
 # Standard library imports
 from pathlib import Path
 from sys import path
+from typing import Union, Any
 
 # 3rd party imports
 import arcade #type: ignore
@@ -12,8 +13,8 @@ path.insert(0, project_path)
 # import organization libraries
 from settings.constants import *
 
-blue_laser: Path = Path('../images/laserBlue01.png')
-player_ship: Path = Path('../images/playerShip1_orange.png')
-small_asteroid: Path = Path('../images/meteorGrey_small1.png')
-medium_asteroid: Path = Path('../images/meteorGrey_med1.png')
-large_asteroid: Path = Path('../images/meteorGrey_big1.png')
+blue_laser: Path = Path('./src/images/laserBlue01.png').resolve()
+player_ship: Path = Path('./src/images/playerShip1_orange.png').resolve()
+small_asteroid: Path = Path('./src/images/meteorGrey_small1.png').resolve()
+medium_asteroid: Path = Path('./src/images/meteorGrey_med1.png').resolve()
+large_asteroid: Path = Path('./src/images/meteorGrey_big1.png').resolve()

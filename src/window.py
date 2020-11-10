@@ -1,8 +1,11 @@
 # Standard library imports
+from typing import List
 
 # Third party imports
 from context import arcade
+from context import INITIAL_ROCK_COUNT
 from Asteroids import SmallAsteroid, MediumAsteroid, LargeAsteroid
+from base import FlyingObject
 from Bullets import Bullet
 from Ship import Ship
 
@@ -18,6 +21,10 @@ class Game(arcade.Window):
     You are welcome to modify anything in this class.
     """
 
+    asteroids: List[FlyingObject] = []
+    ship: Ship = Ship()
+    bullets: List[Bullet] = []
+
     def __init__(self, width, height):
         """
         Sets up the initial conditions of the game
@@ -26,10 +33,10 @@ class Game(arcade.Window):
         """
         super().__init__(width, height)
         arcade.set_background_color(arcade.color.SMOKY_BLACK)
-
         self.held_keys = set()
-
-        # TODO: declare anything here you need the game class to track
+        for i in range(INITIAL_ROCK_COUNT):
+            big_asteroid: LargeAsteroid = LargeAsteroid()
+            self.asteroids.append(big_asteroid)
 
     def on_draw(self):
         """
@@ -40,7 +47,13 @@ class Game(arcade.Window):
         # clear the screen to begin drawing
         arcade.start_render()
 
-        # TODO: draw each object
+        for asteroid in self.asteroids:
+            asteroid.draw()
+        
+        for bullet in self.bullets:
+            bullet.draw()
+        
+        self.ship.draw()
 
     def update(self, delta_time):
         """
@@ -48,6 +61,12 @@ class Game(arcade.Window):
         :param delta_time: tells us how much time has actually elapsed
         """
         self.check_keys()
+
+        for asteroid in self.asteroids:
+            asteroid.advance()
+
+        for bullet in self.bullets:
+            bullet.advance()
 
         # TODO: Tell everything to advance or move forward one step in time
 

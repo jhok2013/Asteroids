@@ -1,6 +1,8 @@
 # Standard library imports
 from typing import Union, Any
 from abc import ABC, abstractmethod
+from pathlib import Path
+from math import radians, sin, cos, atan2
 
 class Point(object):
     '''
@@ -31,8 +33,12 @@ class FlyingObject(ABC):
     alive: bool
     center: Point
     velocity: Velocity
-    radius: float
+    radius: Union[float, int]
     color: Any
+    angle: Union[float, int]
+    image: Path
+    speed: Union[float, int]
+    direction: Union[float, int]
 
     def __init__(self) -> None:
         '''
@@ -42,7 +48,12 @@ class FlyingObject(ABC):
         self.center = Point()
         self.velocity = Velocity()
         self.radius = 0
+        self.height = 0
+        self.width = 0
         self.color = None
+        self.angle = 360
+        self.speed = 0
+        self.direction = 0
 
     @abstractmethod
     def draw(self) -> None:
@@ -65,4 +76,10 @@ class FlyingObject(ABC):
 
         '''
         self.center.x += self.velocity.dx
-        self.center.y += self.velocity.dy       
+        self.center.y += self.velocity.dy
+    
+    def is_alive(self) -> bool:
+        '''
+
+        '''
+        return self.alive
