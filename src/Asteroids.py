@@ -1,5 +1,5 @@
 # Standard library imports
-from typing import Union, Any
+from typing import Union, Any, List
 from random import randint
 from math import radians, cos, sin, atan2
 
@@ -58,7 +58,12 @@ class SmallAsteroid(FlyingObject):
             angle=self.angle,
             alpha=ALPHA
         )
+    
+    def break_apart(self, asteroids: List[FlyingObject]) -> None:
+        '''
 
+        '''
+        pass
 
 class MediumAsteroid(FlyingObject):
     '''
@@ -103,6 +108,18 @@ class MediumAsteroid(FlyingObject):
         '''
         super().advance()
         self.angle += self.spin
+    
+    def break_apart(self, asteroids: List[FlyingObject]) -> None:
+        '''
+
+        '''
+        small_asteroid: SmallAsteroid = SmallAsteroid()
+        small_asteroid.center.x = self.center.x
+        small_asteroid.center.y = self.center.y
+        small_asteroid.velocity.dy = self.velocity.dy + 5
+        for i in range(1, 2):
+            asteroids.append(small_asteroid)
+
 class LargeAsteroid(FlyingObject):
     '''
 
@@ -147,3 +164,14 @@ class LargeAsteroid(FlyingObject):
         '''
         super().advance()
         self.angle += self.spin
+
+    def break_apart(self, asteroids: List[FlyingObject]) -> None:
+        '''
+
+        '''
+        medium_asteroid: MediumAsteroid = MediumAsteroid()
+        medium_asteroid.center.x = self.center.x
+        medium_asteroid.center.y = self.center.y
+        medium_asteroid.velocity.dy = self.velocity.dy + 5
+        for i in range(1, 2):
+            asteroids.append(medium_asteroid)

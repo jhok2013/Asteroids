@@ -68,6 +68,7 @@ class Game(arcade.Window):
             if asteroid.lives <= 0:
                 asteroid.alive = False
             if not asteroid.alive:
+                asteroid.break_apart(asteroids=self.asteroids)
                 self.asteroids.remove(asteroid)
 
         for bullet in self.bullets:
