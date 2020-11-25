@@ -36,6 +36,7 @@ class SmallAsteroid(FlyingObject):
         self.radius = SMALL_ROCK_RADIUS
         self.velocity.dx = cos(radians(self.direction)) * self.speed
         self.velocity.dy = sin(radians(self.direction)) * self.speed
+        self.lives = 1
 
     def advance(self) -> None:
         '''
@@ -80,6 +81,7 @@ class MediumAsteroid(FlyingObject):
         self.radius = MEDIUM_ROCK_RADIUS
         self.velocity.dx = cos(radians(self.direction)) * self.speed
         self.velocity.dy = sin(radians(self.direction)) * self.speed
+        self.lives = 2
 
     def draw(self) -> None:
         '''
@@ -111,6 +113,7 @@ class LargeAsteroid(FlyingObject):
 
         '''
         super().__init__()
+        self.lives = 3
         self.image = large_asteroid
         self.texture = arcade.load_texture(self.image)
         self.width = self.texture.width

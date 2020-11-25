@@ -60,10 +60,15 @@ class Game(arcade.Window):
         Update each object in the game.
         :param delta_time: tells us how much time has actually elapsed
         """
+
         self.check_keys()
 
         for asteroid in self.asteroids:
             asteroid.advance()
+            if asteroid.lives <= 0:
+                asteroid.alive = False
+            if not asteroid.alive:
+                self.asteroids.remove(asteroid)
 
         for bullet in self.bullets:
             bullet.advance()
@@ -71,8 +76,29 @@ class Game(arcade.Window):
                 self.bullets.remove(bullet)
         
         self.ship.advance()
+        self.check_collisions()
+    
+    def check_collisions(self) -> None:
+        '''
+        Check for collisions between all different objects
+        that have inherited from the FlyingObject class.
+        '''
+        for bullet in self.bullets:
+            for asteroid in self.asteroids:
+                if bullet.alive and asteroid.alive:
+                    if abs(asteroid.center.x - bullet.center.x) < asteroid.radius + bullet.radius \
+                    and abs(asteroid.center.y - bullet.center.y) < asteroid.radius + bullet.radius:
+                        # Collision detected
+                        bullet.alive = False
+                        asteroid.lives -= 1
 
-        # TODO: Check for collisions
+        for asteroid in self.asteroids:
+            if self.ship.alive and asteroid.alive:
+                if abs(asteroid.center.x - self.ship.center.x) < asteroid.radius + self.ship.radius \
+                and abs(asteroid.center.y - self.ship.center.y) < asteroid.radius + self.ship.radius:
+                    # Collision detected
+                    self.ship.lives -= 1
+
 
     def check_keys(self):
         """

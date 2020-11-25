@@ -30,6 +30,7 @@ class Ship(FlyingObject):
         self.texture = arcade.load_texture(self.image)
         self.width = self.texture.width
         self.height = self.texture.height
+        self.lives = 3
     
     def draw(self) -> None:
         '''
