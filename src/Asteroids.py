@@ -117,7 +117,7 @@ class MediumAsteroid(FlyingObject):
         small_asteroid.center.x = self.center.x
         small_asteroid.center.y = self.center.y
         small_asteroid.velocity.dy = self.velocity.dy + 5
-        for i in range(1, 2):
+        for i in range(1, 3):
             asteroids.append(small_asteroid)
 
 class LargeAsteroid(FlyingObject):
@@ -173,5 +173,5 @@ class LargeAsteroid(FlyingObject):
         medium_asteroid.center.x = self.center.x
         medium_asteroid.center.y = self.center.y
         medium_asteroid.velocity.dy = self.velocity.dy + 5
-        for i in range(1, 2):
+        for i in range(1, 3):
             asteroids.append(medium_asteroid)
