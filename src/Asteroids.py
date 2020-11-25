@@ -37,6 +37,13 @@ class SmallAsteroid(FlyingObject):
         self.velocity.dx = cos(radians(self.direction)) * self.speed
         self.velocity.dy = sin(radians(self.direction)) * self.speed
 
+    def advance(self) -> None:
+        '''
+
+        '''
+        super().advance()
+        self.angle += self.spin
+
     def draw(self) -> None:
         '''
 
@@ -88,6 +95,12 @@ class MediumAsteroid(FlyingObject):
             alpha=ALPHA
         )
 
+    def advance(self) -> None:
+        '''
+
+        '''
+        super().advance()
+        self.angle += self.spin
 class LargeAsteroid(FlyingObject):
     '''
 
@@ -124,3 +137,10 @@ class LargeAsteroid(FlyingObject):
             angle=self.angle,
             alpha=ALPHA
         )    
+
+    def advance(self) -> None:
+        '''
+
+        '''
+        super().advance()
+        self.angle += self.spin
