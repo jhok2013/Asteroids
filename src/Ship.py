@@ -22,10 +22,11 @@ class Ship(FlyingObject):
 
         '''
         super().__init__()
-        self.angle = 1
+        self.angle = 0
         self.image = player_ship
         self.center.x = SCREEN_WIDTH/2
         self.center.y = SCREEN_HEIGHT/2
+        self.radius = SHIP_RADIUS
         self.texture = arcade.load_texture(self.image)
         self.width = self.texture.width
         self.height = self.texture.height
@@ -48,16 +49,21 @@ class Ship(FlyingObject):
         '''
 
         '''
-        pass
+        self.angle += SHIP_TURN_AMOUNT
 
     def right(self) -> None:
         '''
 
         '''
-        pass
+        self.angle -= SHIP_TURN_AMOUNT
 
-    def thrust(self) -> None:
+    def thrust(self, is_up: bool) -> None:
         '''
 
         '''
-        pass
+        if is_up:
+            self.velocity.dx -= sin(radians(self.angle)) * SHIP_THRUST_AMOUNT
+            self.velocity.dy += cos(radians(self.angle)) * SHIP_THRUST_AMOUNT
+        else:
+            self.velocity.dx += sin(radians(self.angle)) * SHIP_THRUST_AMOUNT
+            self.velocity.dy -= cos(radians(self.angle)) * SHIP_THRUST_AMOUNT

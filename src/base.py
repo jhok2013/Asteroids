@@ -4,6 +4,9 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from math import radians, sin, cos, atan2
 
+# Organization imports
+from context import SCREEN_HEIGHT, SCREEN_WIDTH
+
 class Point(object):
     '''
     The point with an x and y.
@@ -24,7 +27,7 @@ class Velocity(object):
 
     def __init__(self) -> None:
         self.dx = 0.00
-        self.xy = 0.00       
+        self.dy = 0.00       
 
 class FlyingObject(ABC):
     '''
@@ -75,6 +78,7 @@ class FlyingObject(ABC):
         '''
 
         '''
+        self.wrap()
         self.center.x += self.velocity.dx
         self.center.y += self.velocity.dy
     
@@ -83,3 +87,17 @@ class FlyingObject(ABC):
 
         '''
         return self.alive
+    
+    def wrap(self) -> None:
+        '''
+
+        '''
+
+        if self.center.x > SCREEN_WIDTH:
+            self.center.x -= SCREEN_WIDTH
+        elif self.center.x < 0:
+            self.center.x += SCREEN_WIDTH
+        elif self.center.y > SCREEN_HEIGHT:
+            self.center.y -= SCREEN_HEIGHT
+        elif self.center.y < 0:
+            self.center.y += SCREEN_HEIGHT

@@ -67,8 +67,10 @@ class Game(arcade.Window):
 
         for bullet in self.bullets:
             bullet.advance()
-
-        # TODO: Tell everything to advance or move forward one step in time
+            if not bullet.alive:
+                self.bullets.remove(bullet)
+        
+        self.ship.advance()
 
         # TODO: Check for collisions
 
@@ -78,16 +80,16 @@ class Game(arcade.Window):
         You will need to put your own method calls in here.
         """
         if arcade.key.LEFT in self.held_keys:
-            pass
+            self.ship.left()
 
         if arcade.key.RIGHT in self.held_keys:
-            pass
+            self.ship.right()
 
         if arcade.key.UP in self.held_keys:
-            pass
+            self.ship.thrust(is_up=True)
 
         if arcade.key.DOWN in self.held_keys:
-            pass
+            self.ship.thrust(is_up=False)
 
         # Machine gun mode...
         #if arcade.key.SPACE in self.held_keys:
@@ -103,8 +105,13 @@ class Game(arcade.Window):
             self.held_keys.add(key)
 
             if key == arcade.key.SPACE:
-                # TODO: Fire the bullet here!
-                pass
+                bullet: Bullet = Bullet(
+                    ship_angle=self.ship.angle,
+                    ship_x=self.ship.center.x,
+                    ship_y=self.ship.center.y
+                )
+                self.bullets.append(bullet)
+                bullet.fire(self.ship.angle)
 
     def on_key_release(self, key: int, modifiers: int):
         """
