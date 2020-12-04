@@ -1,9 +1,9 @@
 # Standard library imports
 from typing import List
 
-# Third party imports
+# Third party import
 from context import arcade
-from context import INITIAL_ROCK_COUNT
+from context import INITIAL_ROCK_COUNT, SCREEN_HEIGHT, SCREEN_WIDTH
 from Asteroids import SmallAsteroid, MediumAsteroid, LargeAsteroid
 from base import FlyingObject
 from Bullets import Bullet
@@ -24,6 +24,7 @@ class Game(arcade.Window):
     asteroids: List[FlyingObject] = []
     ship: Ship = Ship()
     bullets: List[Bullet] = []
+    score: int
 
     def __init__(self, width, height):
         """
@@ -32,6 +33,7 @@ class Game(arcade.Window):
         :param height: Screen height
         """
         super().__init__(width, height)
+        self.score = 1000
         arcade.set_background_color(arcade.color.SMOKY_BLACK)
         self.held_keys = set()
         for i in range(INITIAL_ROCK_COUNT):
@@ -54,14 +56,15 @@ class Game(arcade.Window):
             bullet.draw()
         
         self.ship.draw()
+        self.draw_score()
 
     def update(self, delta_time):
         """
         Update each object in the game.
         :param delta_time: tells us how much time has actually elapsed
         """
-
         self.check_keys()
+        self.score -= 1
 
         for asteroid in self.asteroids:
             asteroid.advance()
@@ -92,6 +95,12 @@ class Game(arcade.Window):
                         # Collision detected
                         bullet.alive = False
                         asteroid.lives -= 1
+                        if isinstance(asteroid, SmallAsteroid):
+                            self.score += 100
+                        elif isinstance(asteroid, MediumAsteroid):
+                            self.score += 50
+                        elif isinstance(asteroid, LargeAsteroid):
+                            self.score += 25
 
         for asteroid in self.asteroids:
             if self.ship.alive and asteroid.alive:
@@ -100,7 +109,21 @@ class Game(arcade.Window):
                     # Collision detected
                     self.ship.lives -= 1
 
+    def draw_score(self) -> None:
+        '''
 
+        '''
+        arcade.draw_text(
+            text=f"Score: {self.score}",
+            start_x=15,
+            start_y=SCREEN_HEIGHT - 40,
+            color=arcade.color.GREEN,
+            font_size=24,
+            font_name='Calibri',
+            align='left',
+            bold=True
+        )
+    
     def check_keys(self):
         """
         This function checks for keys that are being held down.
