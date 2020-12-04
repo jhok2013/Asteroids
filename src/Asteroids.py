@@ -116,9 +116,19 @@ class MediumAsteroid(FlyingObject):
         small_asteroid: SmallAsteroid = SmallAsteroid()
         small_asteroid.center.x = self.center.x
         small_asteroid.center.y = self.center.y
-        small_asteroid.velocity.dy = self.velocity.dy + 5
-        for i in range(1, 3):
-            asteroids.append(small_asteroid)
+        small_asteroid.velocity.dx = self.velocity.dx + 5
+
+        small_asteroid_2: SmallAsteroid = SmallAsteroid()
+        small_asteroid_2.center.x = self.center.x
+        small_asteroid_2.center.y = self.center.y
+        small_asteroid_2.velocity.dx = self.velocity.dx - 5
+
+        asteroids_list: List[SmallAsteroid] = [
+            small_asteroid,
+            small_asteroid_2
+        ]
+
+        asteroids.extend(asteroids_list)
 
 class LargeAsteroid(FlyingObject):
     '''
@@ -173,5 +183,15 @@ class LargeAsteroid(FlyingObject):
         medium_asteroid.center.x = self.center.x
         medium_asteroid.center.y = self.center.y
         medium_asteroid.velocity.dy = self.velocity.dy + 5
-        for i in range(1, 3):
-            asteroids.append(medium_asteroid)
+
+        medium_asteroid_2: MediumAsteroid = MediumAsteroid()
+        medium_asteroid_2.center.x = self.center.x
+        medium_asteroid_2.center.y = self.center.y
+        medium_asteroid_2.velocity.dy = self.velocity.dy - 5
+
+        asteroid_list: List[MediumAsteroid] = [
+            medium_asteroid,
+            medium_asteroid_2
+        ]
+
+        asteroids.extend(asteroid_list)
