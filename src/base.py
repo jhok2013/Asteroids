@@ -34,6 +34,7 @@ class FlyingObject(ABC):
 
     '''
     alive: bool
+    lives: int
     center: Point
     velocity: Velocity
     radius: Union[float, int]
@@ -57,6 +58,7 @@ class FlyingObject(ABC):
         self.angle = 360
         self.speed = 0
         self.direction = 0
+        self.lives = 0
 
     @abstractmethod
     def draw(self) -> None:

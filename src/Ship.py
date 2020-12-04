@@ -30,6 +30,7 @@ class Ship(FlyingObject):
         self.texture = arcade.load_texture(self.image)
         self.width = self.texture.width
         self.height = self.texture.height
+        self.lives = 3
     
     def draw(self) -> None:
         '''
@@ -61,9 +62,16 @@ class Ship(FlyingObject):
         '''
 
         '''
-        if is_up:
+        speed_limit: int = 8
+
+        if  is_up:
             self.velocity.dx -= sin(radians(self.angle)) * SHIP_THRUST_AMOUNT
             self.velocity.dy += cos(radians(self.angle)) * SHIP_THRUST_AMOUNT
-        else:
+            self.velocity.dx = speed_limit if abs(self.velocity.dx) > speed_limit else self.velocity.dx
+            self.velocity.dy = speed_limit if abs(self.velocity.dy) > speed_limit else self.velocity.dy
+        
+        if not is_up:
             self.velocity.dx += sin(radians(self.angle)) * SHIP_THRUST_AMOUNT
             self.velocity.dy -= cos(radians(self.angle)) * SHIP_THRUST_AMOUNT
+            self.velocity.dx = speed_limit * -1 if abs(self.velocity.dx) > speed_limit else self.velocity.dx
+            self.velocity.dy = speed_limit * -1 if abs(self.velocity.dy) > speed_limit else self.velocity.dy

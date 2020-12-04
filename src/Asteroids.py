@@ -1,5 +1,5 @@
 # Standard library imports
-from typing import Union, Any
+from typing import Union, Any, List
 from random import randint
 from math import radians, cos, sin, atan2
 
@@ -36,6 +36,14 @@ class SmallAsteroid(FlyingObject):
         self.radius = SMALL_ROCK_RADIUS
         self.velocity.dx = cos(radians(self.direction)) * self.speed
         self.velocity.dy = sin(radians(self.direction)) * self.speed
+        self.lives = 1
+
+    def advance(self) -> None:
+        '''
+
+        '''
+        super().advance()
+        self.angle += self.spin
 
     def draw(self) -> None:
         '''
@@ -50,7 +58,12 @@ class SmallAsteroid(FlyingObject):
             angle=self.angle,
             alpha=ALPHA
         )
+    
+    def break_apart(self, asteroids: List[FlyingObject]) -> None:
+        '''
 
+        '''
+        pass
 
 class MediumAsteroid(FlyingObject):
     '''
@@ -73,6 +86,7 @@ class MediumAsteroid(FlyingObject):
         self.radius = MEDIUM_ROCK_RADIUS
         self.velocity.dx = cos(radians(self.direction)) * self.speed
         self.velocity.dy = sin(radians(self.direction)) * self.speed
+        self.lives = 2
 
     def draw(self) -> None:
         '''
@@ -88,6 +102,34 @@ class MediumAsteroid(FlyingObject):
             alpha=ALPHA
         )
 
+    def advance(self) -> None:
+        '''
+
+        '''
+        super().advance()
+        self.angle += self.spin
+    
+    def break_apart(self, asteroids: List[FlyingObject]) -> None:
+        '''
+
+        '''
+        small_asteroid: SmallAsteroid = SmallAsteroid()
+        small_asteroid.center.x = self.center.x
+        small_asteroid.center.y = self.center.y
+        small_asteroid.velocity.dx = self.velocity.dx + 5
+
+        small_asteroid_2: SmallAsteroid = SmallAsteroid()
+        small_asteroid_2.center.x = self.center.x
+        small_asteroid_2.center.y = self.center.y
+        small_asteroid_2.velocity.dx = self.velocity.dx - 5
+
+        asteroids_list: List[SmallAsteroid] = [
+            small_asteroid,
+            small_asteroid_2
+        ]
+
+        asteroids.extend(asteroids_list)
+
 class LargeAsteroid(FlyingObject):
     '''
 
@@ -98,6 +140,7 @@ class LargeAsteroid(FlyingObject):
 
         '''
         super().__init__()
+        self.lives = 3
         self.image = large_asteroid
         self.texture = arcade.load_texture(self.image)
         self.width = self.texture.width
@@ -124,3 +167,31 @@ class LargeAsteroid(FlyingObject):
             angle=self.angle,
             alpha=ALPHA
         )    
+
+    def advance(self) -> None:
+        '''
+
+        '''
+        super().advance()
+        self.angle += self.spin
+
+    def break_apart(self, asteroids: List[FlyingObject]) -> None:
+        '''
+
+        '''
+        medium_asteroid: MediumAsteroid = MediumAsteroid()
+        medium_asteroid.center.x = self.center.x
+        medium_asteroid.center.y = self.center.y
+        medium_asteroid.velocity.dy = self.velocity.dy + 5
+
+        medium_asteroid_2: MediumAsteroid = MediumAsteroid()
+        medium_asteroid_2.center.x = self.center.x
+        medium_asteroid_2.center.y = self.center.y
+        medium_asteroid_2.velocity.dy = self.velocity.dy - 5
+
+        asteroid_list: List[MediumAsteroid] = [
+            medium_asteroid,
+            medium_asteroid_2
+        ]
+
+        asteroids.extend(asteroid_list)
